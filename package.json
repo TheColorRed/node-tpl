@@ -1,0 +1,25 @@
+{
+    "name": "node-tpl",
+    "version": "0.0.5",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/TheColorRed/node-tpl"
+    },
+    "description": "Generates templates in a Smarty like fashion",
+    "main": "tpl.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "tpl",
+        "template",
+        "templates",
+        "smarty",
+        "email",
+        "html",
+        "email templates",
+        "html templates"
+    ],
+    "author": "Ryan Naddy",
+    "license": "BSD-2-Clause"
+}
