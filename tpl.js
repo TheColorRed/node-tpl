@@ -40,6 +40,7 @@ exports.display = function(filename){
  */
 exports.fetch = function(filename){
     var tpl = fs.readFileSync(getPath(filename), {encoding: 'utf8'});
+    tpl = getIncludes(tpl);
     tpl = removeLiterals(tpl);
     tpl = replaceForeach(tpl);
     tpl = replaceIf(tpl);
@@ -79,9 +80,35 @@ addLiterals = function(tpl){
     return tpl;
 };
 
+getIncludes = function(tpl){
+    var reg = /\{include\s+?['"](.+?)['"]\}/ig;
+    var matches = tpl.match(reg);
+    var n = 0;
+    var includes = 0;
+    tpl = tpl.replace(reg, function(){
+        includes++;
+        return "__include_" + (n++) + "__";
+    });
+    n = 0;
+    for(var i in matches){
+        var filename = /['"](.+?)['"]/ig.exec(matches[i]);
+        if(filename[1]){
+            var fname = replaceVars(filename[1], false);
+            var file = fs.readFileSync(getPath(fname), {encoding: 'utf8'});
+            tpl = tpl.replace("__include_" + n + "__", file);
+        }
+        n++;
+    }
+    if(includes > 0){
+        tpl = getIncludes(tpl);
+    }
+    return tpl;
+};
+
 /**
  * Replaces placeholders.
  * @param {type} tpl
+ * @param {boolean} hasBraces
  * @returns {string}
  */
 replaceVars = function(tpl, hasBraces){

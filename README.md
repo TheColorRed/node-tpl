@@ -49,6 +49,16 @@ tpl.display("templates/myfile.tpl");
 ```
 ## API Documentation
 
+### Set the current directory
+
+Files are loaded based on the current working directory (cwd). By default the cwd is set to `__dirname`. This can be changed by setting it with `setcwd` without a trailing `/`.
+
+```
+tpl.setcwd("/path/to/default");
+```
+
+Files that are included within the markup are also loaded based on the cwd.
+
 ### Variables
 
 Variables are items that link to a variable within the template markup, they are added by using the `assign` method.
@@ -163,6 +173,18 @@ We might then get something like this as output:
 </div>
 ```
 
+### Includes
+
+Files can be included using the `include` command and included files can also include other files.
+
+```html
+{include "templates/nav.tpl"}
+{include "templates/$filename"}
+```
+
+**Note:** Any file that includes itself or a parent file will probably create an endless loop.
+**Note:** Currently a variable followed by a an extention such as `$filename.tpl` will break the code.
+
 ### Literals
 
 A literal is a way to force the engine not to replace markup, because sometimes you don't always want to replace blocks, such as JavaScript in a browser, because they can sometimes mean the same.
@@ -206,15 +228,18 @@ Now what gets output is exactly what we wanted because we told the engine not to
 ## Changelog
 
 * 0.0.1 - 4/10/15
-  * Initialization
+    * Initialization
 * 0.0.2 - 4/10/15
-  * Documentation update
+    * Documentation update
 * 0.0.3 - 4/11/15
-  * Added support for if/elseif/else
+    * Added support for if/elseif/else
 * 0.0.4 - 4/11/15
-  * Documentation update
-  * Enhancements
-  * Added extra npm tags
+    * Documentation update
+    * Enhancements
+    * Added extra npm tags
 * 0.0.5 - 4/11/15
-  * Added support for literal's
-  * Added npm repository
+    * Added support for literal's
+    * Added npm repository
+* 0.0.6 - 4/11/15
+    * Added file include support
+    * Documentation update
